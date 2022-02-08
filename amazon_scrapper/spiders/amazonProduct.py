@@ -8,9 +8,12 @@ queries = ['samsung', 'motorola']
 class AmazonproductSpider(scrapy.Spider):
     name = 'amazonProduct'
     allowed_domains = ['amazon.in']
-    start_urls = ['https://www.amazon.in/s?k=' + queries[0],
-    'https://www.amazon.in/s?k=' + queries[1]] 
+    initialUrl = 'https://www.amazon.in/s?k='
+    start_urls = [] 
 
+    for query in queries:
+        start_urls.append(initialUrl + query)
+    
     def parse(self, response):
         items = AmazonScrapperItem()
         items['productName'] = response.css('.s-line-clamp-2::text').extract()
